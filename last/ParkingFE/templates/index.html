@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Parking Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0; /* Light Gray */
+        }
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff; /* White */
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin: 0;
+            padding: 20px 0;
+            color: #333333; /* Dark Gray */
+            font-size: 42px; /* Larger font size */
+            border-bottom: 2px solid #cccccc; /* Light Gray */
+            text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1); /* Text shadow */
+        }
+        .slots-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        .slot {
+            margin: 10px;
+            padding: 20px;
+            border: 2px solid #cccccc; /* Light Gray */
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 200px;
+            text-align: center;
+        }
+        .slot h3 {
+            margin: 0;
+            font-size: 24px;
+            color: #333333; /* Dark Gray */
+        }
+        .slot p {
+            margin: 0;
+            font-size: 18px;
+        }
+        /* Styling based on availability */
+        .available {
+            background-color: #66bb6a; /* Light Green */
+            border-color: #43a047; /* Dark Green */
+        }
+        .occupied {
+            background-color: #ef5350; /* Light Red */
+            border-color: #e53935; /* Dark Red */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Parking Management System</h1>
+        <div class="slots-container" id="slots">
+            <!-- Slots will be dynamically updated here -->
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
+    <script>
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        socket.on('connect', function() {
+            socket.emit('update_slots');
+        });
+
+        socket.on('slots_updated', function(slots) {
+            // Clear existing slots
+            document.getElementById('slots').innerHTML = '';
+
+            // Loop through slots array and update webpage
+            slots.forEach(function(slot) {
+                var slotDiv = document.createElement('div');
+                slotDiv.className = 'slot';
+                slotDiv.id = 'slot' + slot[0];
+                slotDiv.innerHTML = '<h3>Slot ' + slot[0] + '</h3>';
+                if (slot[1]) {
+                    slotDiv.innerHTML += '<p style="color: white;">Available</p>';
+                    slotDiv.classList.add('available');
+                } else {
+                    slotDiv.innerHTML += '<p style="color: white;">Occupied</p>';
+                    slotDiv.classList.add('occupied');
+                }
+                document.getElementById('slots').appendChild(slotDiv);
+            });
+
+            // Add extra slots for display
+            var extraSlots = [
+                [3, true], [4, false], [5, true], [6, false], [7, true], [8, false], [9, true]
+            ];
+
+            extraSlots.forEach(function(slot) {
+                var slotDiv = document.createElement('div');
+                slotDiv.className = 'slot';
+                slotDiv.innerHTML = '<h3>Slot ' + slot[0] + '</h3>';
+                if (slot[1]) {
+                    slotDiv.innerHTML += '<p style="color: white;">Available</p>';
+                    slotDiv.classList.add('available');
+                } else {
+                    slotDiv.innerHTML += '<p style="color: white;">Occupied</p>';
+                    slotDiv.classList.add('occupied');
+                }
+                document.getElementById('slots').appendChild(slotDiv);
+            });
+        });
+    </script>
+</body>
+</html>
