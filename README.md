@@ -65,20 +65,3 @@ LEDs associated with the parking slots provide a physical indication of whether 
 ![Hardware Setup](image-2.jpeg)
 
 
-## Project Structure
-
-```text
-Autonomous-Parking-Management-System/
-├── arduino/
-│   └── parking_sensor.ino
-├── java/
-│   ├── client/
-│   └── server/
-├── flask/
-│   ├── app.py
-│   ├── templates/
-│   └── static/
-├── images/
-│   ├── hardware_setup.png
-│   └── parking_dashboard.png
-└── README.md
