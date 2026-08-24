@@ -61,7 +61,8 @@ LEDs associated with the parking slots provide a physical indication of whether 
 ### Hardware Setup
 
 <!-- Replace this with your hardware setup image -->
-![Hardware Setup](images/hardware_setup.png)
+![Hardware Setup](image-1.jpeg)
+![Hardware Setup](image-2.jpeg)
 
 
 ## Project Structure
